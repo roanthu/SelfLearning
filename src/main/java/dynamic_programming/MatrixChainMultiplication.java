@@ -96,6 +96,28 @@ public class MatrixChainMultiplication {
         return ret;
     }
 
+    static int[][] dp = new int[100][100];
+    static int matrixChainMemoised(int[] p, int i, int j){
+        if (i == j)
+        {
+            return 0;
+        }
+        if (dp[i][j] != -1)
+        {
+            return dp[i][j];
+        }
+
+        dp[i][j] = Integer.MAX_VALUE;
+        for (int k = i; k < j; k++)
+        {
+            dp[i][j] = Math.min(
+                    dp[i][j], matrixChainMemoised(p, i, k)
+                            + matrixChainMemoised(p, k + 1, j)
+                            + p[i - 1] * p[k] * p[j]);
+        }
+        return dp[i][j];
+    }
+
     public static void main(String[] args){
         MatrixChainMultiplication matrixChainMultiplication = new MatrixChainMultiplication();
         Matrix matrixA = new Matrix(2, 2, "matrixA");
